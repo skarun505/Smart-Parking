@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Manage Slots</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="live_bookings.html">Live Bookings</a></li>
+                <li><a href="manage_slots.html" class="active">Manage Slots</a></li>
+                <li><a href="add_slot.html">Add Slot</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Manage Slots</h1>
+                    <p>View, edit, block/unblock, and delete parking slots</p>
+                </div>
+            </header>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav">
+                <button class="tab-btn active" data-tab="Bike" onclick="switchTab('Bike')">🏍️ Bikes</button>
+                <button class="tab-btn" data-tab="Car" onclick="switchTab('Car')">🚗 Cars</button>
+            </div>
+
+            <div id="loader" class="loader" style="display: none;"></div>
+
+            <div class="table-container">
+                <table id="slotsTable">
+                    <thead>
+                        <tr>
+                            <th>Slot Name</th>
+                            <th>Floor</th>
+                            <th>Block</th>
+                            <th>VIP/Normal</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <span class="close-modal"
+                onclick="document.getElementById('editModal').classList.remove('active')">&times;</span>
+            <h2 style="margin-bottom: 1.5rem">Edit Slot</h2>
+            <input type="hidden" id="editSlotId">
+            <div class="form-group">
+                <label>Slot Name</label>
+                <input type="text" id="editSlotName">
+            </div>
+            <div class="form-group">
+                <label>Floor</label>
+                <select id="editFloor">
+                    <option value="F1">F1</option>
+                    <option value="F2">F2</option>
+                    <option value="F3">F3</option>
+                    <option value="F4">F4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Block Name</label>
+                <input type="text" id="editBlockName">
+            </div>
+            <button class="btn btn-primary" onclick="saveSlotEdit()">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        let allSlots = [];
+        let currentTab = 'Bike';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchManageSlots();
+        });
+
+        function switchTab(type) {
+            currentTab = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === type);
+            });
+            renderSlots();
+        }
+
+        async function fetchManageSlots() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/slots`);
+                allSlots = await res.json();
+                renderSlots();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function renderSlots() {
+            const tbody = document.querySelector('#slotsTable tbody');
+            tbody.innerHTML = '';
+
+            const filtered = allSlots.filter(s => s.vehicle_type === currentTab);
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No slots found for this category.</td></tr>';
+                return;
+            }
+
+            filtered.forEach(s => {
+                const tr = document.createElement('tr');
+
+                const toggleBtnText = s.status === 'Blocked' ? 'Unblock' : 'Block';
+                const toggleClass = s.status === 'Blocked' ? 'btn-primary' : 'btn-danger';
+                const canToggle = s.status !== 'Occupied';
+                const canDelete = s.status !== 'Occupied';
+
+                tr.innerHTML = `
+                    <td><strong>${s.slot_name}</strong></td>
+                    <td>${s.floor}</td>
+                    <td>${s.block_name || '-'}</td>
+                    <td><span class="badge ${s.slot_type === 'VIP' ? 'badge-Active' : 'badge-Pending'}">${s.slot_type}</span></td>
+                    <td><span class="badge badge-${s.status}">${s.status}</span></td>
+                    <td>
+                        <div class="action-group">
+                            <button class="btn ${toggleClass}" onclick="toggleSlot(${s.id})" ${canToggle ? '' : 'disabled title="Cannot block occupied slot"'} style="width:auto;padding:0.25rem 0.5rem;font-size:0.8rem;">${toggleBtnText}</button>
+                            <button class="btn btn-outline" onclick="openEditModal(${s.id})" style="width:auto;padding:0.25rem 0.5rem;font-size:0.8rem;">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteSlot(${s.id})" ${canDelete ? '' : 'disabled'} style="width:auto;padding:0.25rem 0.5rem;font-size:0.8rem;">Delete</button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function toggleSlot(id) {
+            try {
+                const res = await fetch(`${API_BASE}/admin/slots/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ slot_id: id })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`Slot status → ${data.new_status}`, 'success');
+                    fetchManageSlots();
+                } else {
+                    showToast(data.error || 'Failed to toggle', 'error');
+                }
+            } catch (e) {
+                showToast('Server error', 'error');
+            }
+        }
+
+        function openEditModal(id) {
+            const slot = allSlots.find(s => s.id === id);
+            if (!slot) return;
+            document.getElementById('editSlotId').value = id;
+            document.getElementById('editSlotName').value = slot.slot_name;
+            document.getElementById('editFloor').value = slot.floor;
+            document.getElementById('editBlockName').value = slot.block_name || '';
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        async function saveSlotEdit() {
+            const id = document.getElementById('editSlotId').value;
+            const payload = {
+                slot_id: id,
+                slot_name: document.getElementById('editSlotName').value.trim(),
+                floor: document.getElementById('editFloor').value,
+                block_name: document.getElementById('editBlockName').value.trim()
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/slots/edit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    document.getElementById('editModal').classList.remove('active');
+                    fetchManageSlots();
+                } else {
+                    showToast(data.error || 'Failed to update', 'error');
+                }
+            } catch (e) {
+                showToast('Server error', 'error');
+            }
+        }
+
+        async function deleteSlot(id) {
+            if (!confirm('Permanently delete this slot? This cannot be undone.')) return;
+            try {
+                const res = await fetch(`${API_BASE}/admin/slots/delete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ slot_id: id })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    fetchManageSlots();
+                } else {
+                    showToast(data.error || 'Failed to delete', 'error');
+                }
+            } catch (e) {
+                showToast('Server error', 'error');
+            }
+        }
+    </script>
+</body>
+
+</html>

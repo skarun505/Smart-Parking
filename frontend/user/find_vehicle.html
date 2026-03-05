@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Find Vehicle</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SmartPark</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="book_slot.html">Book Slot</a></li>
+                <li><a href="find_vehicle.html" class="active">Find My Vehicle</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="slot_view.html">Slot View</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Find My Vehicle</h1>
+                    <p>Enter your vehicle registration number to locate your parked vehicle.</p>
+                </div>
+            </header>
+
+            <div style="max-width: 600px; margin: 3rem auto;">
+                <div class="booking-form-card"
+                    style="background: var(--secondary); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); text-align: center;">
+                    <div class="form-group modern-input">
+                        <label for="searchInput">Vehicle Registration Number</label>
+                        <div class="input-wrapper" style="max-width: 400px; margin: 0 auto;">
+                            <span class="input-icon">🔍</span>
+                            <input type="text" id="searchInput" placeholder="e.g. MH01AB1234"
+                                style="text-align: center; text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-glow" id="searchBtn"
+                        style="margin-top: 1.5rem; width: 100%; max-width: 400px;">Locate My Car</button>
+
+                    <div id="searchLoader" class="loader" style="display: none; margin-top: 2rem;"></div>
+
+                    <div id="resultCard" class="finder-result" style="margin-top: 2.5rem; display: none;">
+                        <div id="resultContent"
+                            style="background: rgba(0, 200, 83, 0.1); border: 1px solid var(--accent); border-radius: 12px; padding: 1.5rem;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/find_vehicle.js"></script>
+</body>
+
+</html>

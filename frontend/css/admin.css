@@ -1,0 +1,159 @@
+/* Admin-specific styles */
+
+/* Admin sidebar branding */
+.sidebar-header h2 {
+    position: relative;
+}
+
+/* Admin-specific stat card colors */
+.stat-card.revenue {
+    border-left: 4px solid var(--vip);
+}
+
+.stat-card.total {
+    border-left: 4px solid var(--info);
+}
+
+.stat-card.available {
+    border-left: 4px solid var(--accent);
+}
+
+.stat-card.occupied {
+    border-left: 4px solid var(--danger);
+}
+
+/* Tab navigation for manage slots */
+.tab-nav {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: var(--transition);
+    position: relative;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    color: var(--accent);
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+}
+
+/* Action button group */
+.action-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.action-group .btn {
+    width: auto;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* Edit inline form */
+.inline-edit {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.inline-edit input {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    width: 100px;
+}
+
+.inline-edit input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+/* Recently added slots preview */
+.recent-slots {
+    margin-top: 2rem;
+    background: var(--secondary);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+}
+
+.recent-slots h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+/* Admin quick actions grid */
+.admin-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.admin-action-card {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.admin-action-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    background: rgba(0, 200, 83, 0.05);
+}
+
+.admin-action-card .icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Expire warning row */
+tr.expire-warning {
+    background: rgba(244, 67, 54, 0.1);
+}
+
+/* Responsive admin */
+@media (max-width: 768px) {
+    .tab-nav {
+        flex-wrap: wrap;
+    }
+
+    .admin-actions-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .action-group {
+        flex-direction: column;
+    }
+}

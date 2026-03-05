@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Admin Booking History</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="live_bookings.html">Live Bookings</a></li>
+                <li><a href="manage_slots.html">Manage Slots</a></li>
+                <li><a href="add_slot.html">Add Slot</a></li>
+                <li><a href="booking_history.html" class="active">Booking History</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Complete Booking History</h1>
+                    <p>All bookings from all users</p>
+                </div>
+            </header>
+
+            <div id="loader" class="loader" style="display: none;"></div>
+
+            <div class="table-container">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>BID</th>
+                            <th>User Name</th>
+                            <th>Vehicle No</th>
+                            <th>Slot</th>
+                            <th>Floor</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAdminHistory();
+        });
+
+        async function fetchAdminHistory() {
+            try {
+                const res = await fetch(`${API_BASE}/admin/booking-history`);
+                const data = await res.json();
+
+                const tbody = document.querySelector('#historyTable tbody');
+                tbody.innerHTML = '';
+
+                if (data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No history available</td></tr>';
+                    return;
+                }
+
+                data.forEach(b => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>#${b.id}</td>
+                        <td>${b.user_name}</td>
+                        <td>${b.vehicle_number}</td>
+                        <td><strong>${b.slot_name}</strong></td>
+                        <td>${b.floor || '-'}</td>
+                        <td>${new Date(b.start_time).toLocaleString()}</td>
+                        <td>${new Date(b.end_time).toLocaleString()}</td>
+                        <td>₹${parseFloat(b.total_amount).toFixed(2)}</td>
+                        <td><span class="badge badge-${b.status}">${b.status}</span></td>
+                        <td><span class="badge badge-${b.payment_status || 'Pending'}">${b.payment_status || 'Pending'}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+
+</html>

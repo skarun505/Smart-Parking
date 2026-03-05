@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Booking History</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SmartPark</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="book_slot.html">Book Slot</a></li>
+                <li><a href="find_vehicle.html">Find My Vehicle</a></li>
+                <li><a href="booking_history.html" class="active">Booking History</a></li>
+                <li><a href="slot_view.html">Slot View</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Booking History</h1>
+                    <p>View past and active bookings</p>
+                </div>
+            </header>
+
+            <div id="loader" class="loader" style="display: none;"></div>
+
+            <div class="table-container">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Vehicle No</th>
+                            <th>Slot / Floor</th>
+                            <th>Type</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data injected via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Extend Modal -->
+    <div class="modal" id="extendModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeExtend">&times;</span>
+            <h2 style="margin-bottom: 1.5rem">Extend Booking</h2>
+            <input type="hidden" id="extBookingId">
+            <div class="form-group">
+                <label>Extra Hours</label>
+                <input type="number" id="extHours" min="1" max="24" value="1">
+            </div>
+            <button class="btn btn-primary" id="confirmExtendBtn">Extend & Pay Difference</button>
+        </div>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/booking_history.js"></script>
+</body>
+
+</html>

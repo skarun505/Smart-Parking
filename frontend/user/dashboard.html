@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - User Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SmartPark</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="book_slot.html">Book Slot</a></li>
+                <li><a href="find_vehicle.html">Find My Vehicle</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="slot_view.html">Slot View</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Welcome Home 🏠</h1>
+                    <p>Manage your parking and track your usage in real-time.</p>
+                </div>
+            </header>
+
+            <div id="loader" class="loader" style="display: none;"></div>
+
+            <div id="dashboardContent">
+                <!-- Quick Actions -->
+                <div class="quick-actions" style="margin-bottom: 3rem;">
+                    <div class="quick-action-card" onclick="window.location.href='book_slot.html'">
+                        <div class="icon">🅿️</div>
+                        <h4>Reserve Slot</h4>
+                        <p>Book a space instantly</p>
+                    </div>
+                    <div class="quick-action-card" onclick="window.location.href='find_vehicle.html'">
+                        <div class="icon">🔍</div>
+                        <h4>Find My Vehicle</h4>
+                        <p>Locate where you parked</p>
+                    </div>
+                    <div class="quick-action-card" onclick="window.location.href='booking_history.html'">
+                        <div class="icon">📜</div>
+                        <h4>Logs & History</h4>
+                        <p>View your past sessions</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Live Occupancy Status</h3>
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <h3>Total Slots</h3>
+                        <div class="value" id="bikeTotal">0</div>
+                    </div>
+                    <div class="stat-card available">
+                        <h3>Available</h3>
+                        <div class="value" id="bikeAvailable">0</div>
+                    </div>
+                    <div class="stat-card occupied">
+                        <h3>Occupied</h3>
+                        <div class="value" id="bikeOccupied">0</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Car Parking</h3>
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <h3>Total Slots</h3>
+                        <div class="value" id="carTotal">0</div>
+                    </div>
+                    <div class="stat-card available">
+                        <h3>Available</h3>
+                        <div class="value" id="carAvailable">0</div>
+                    </div>
+                    <div class="stat-card occupied">
+                        <h3>Occupied</h3>
+                        <div class="value" id="carOccupied">0</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Combined Overview</h3>
+                <div class="stats-grid">
+                    <div class="stat-card total">
+                        <h3>Total Capacity</h3>
+                        <div class="value" id="totalSlots">0</div>
+                    </div>
+                    <div class="stat-card available">
+                        <h3>Total Available</h3>
+                        <div class="value" id="availableSlots">0</div>
+                    </div>
+                    <div class="stat-card occupied">
+                        <h3>Total Occupied</h3>
+                        <div class="value" id="occupiedSlots">0</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

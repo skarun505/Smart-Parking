@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Slot View</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SmartPark</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="book_slot.html">Book Slot</a></li>
+                <li><a href="find_vehicle.html">Find My Vehicle</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="slot_view.html" class="active">Slot View</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Live Slot View</h1>
+                    <p>Click on an available slot to book it directly.</p>
+                </div>
+            </header>
+
+            <div class="filter-bar">
+                <div class="form-group" style="margin: 0; flex: 1;">
+                    <label>Vehicle Type</label>
+                    <select id="filterType">
+                        <option value="All">All Types</option>
+                        <option value="Bike">Bikes</option>
+                        <option value="Car">Cars</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin: 0; flex: 1;">
+                    <label>Floor</label>
+                    <select id="filterFloor">
+                        <option value="All">All Floors</option>
+                        <option value="F1">F1</option>
+                        <option value="F2">F2</option>
+                        <option value="F3">F3</option>
+                        <option value="F4">F4</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin: 0; flex: 1;">
+                    <label>Status</label>
+                    <select id="filterStatus">
+                        <option value="All">All Statuses</option>
+                        <option value="Available">Available</option>
+                        <option value="Occupied">Occupied</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="loader" class="loader" style="display: none;"></div>
+
+            <div id="slotGrid" class="slot-grid">
+                <!-- Slots will be injected here via JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/slot_view.js"></script>
+</body>
+
+</html>

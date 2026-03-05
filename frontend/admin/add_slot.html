@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Add Slot</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Admin</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="live_bookings.html">Live Bookings</a></li>
+                <li><a href="manage_slots.html">Manage Slots</a></li>
+                <li><a href="add_slot.html" class="active">Add Slot</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Add New Slot</h1>
+                    <p>Register new parking slots to the system</p>
+                </div>
+            </header>
+
+            <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                <!-- Add Slot Form -->
+                <div class="booking-form-card"
+                    style="flex: 1.5; min-width: 400px; background: var(--secondary); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);">
+                    <form id="addSlotForm">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+                            <div class="form-group modern-input">
+                                <label>Slot Identity</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🏷️</span>
+                                    <input type="text" id="slotName" required placeholder="e.g. A1, VIP1">
+                                </div>
+                            </div>
+                            <div class="form-group modern-input">
+                                <label>Block Zone</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🏢</span>
+                                    <input type="text" id="blockName" placeholder="e.g. Block A">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group modern-input">
+                            <label>Configure Floor Location</label>
+                            <div class="selection-grid">
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F1" checked>
+                                    <div class="card-content" style="padding: 1rem;">
+                                        <span class="icon" style="font-size: 1.5rem;">❶</span>
+                                        <span class="label">F1</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F2">
+                                    <div class="card-content" style="padding: 1rem;">
+                                        <span class="icon" style="font-size: 1.5rem;">❷</span>
+                                        <span class="label">F2</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F3">
+                                    <div class="card-content" style="padding: 1rem;">
+                                        <span class="icon" style="font-size: 1.5rem;">❸</span>
+                                        <span class="label">F3</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F4">
+                                    <div class="card-content" style="padding: 1rem;">
+                                        <span class="icon" style="font-size: 1.5rem;">❹</span>
+                                        <span class="label">F4</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+                            <div class="form-group modern-input">
+                                <label>Vehicle Type</label>
+                                <div class="selection-grid">
+                                    <label class="selection-card">
+                                        <input type="radio" name="vType" value="Bike" checked>
+                                        <div class="card-content" style="padding: 0.8rem;">
+                                            <span class="icon" style="font-size: 1.2rem;">🏍️</span>
+                                            <span class="label" style="font-size: 0.8rem;">Bike</span>
+                                        </div>
+                                    </label>
+                                    <label class="selection-card">
+                                        <input type="radio" name="vType" value="Car">
+                                        <div class="card-content" style="padding: 0.8rem;">
+                                            <span class="icon" style="font-size: 1.2rem;">🚗</span>
+                                            <span class="label" style="font-size: 0.8rem;">Car</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group modern-input">
+                                <label>Priority Class</label>
+                                <div class="selection-grid">
+                                    <label class="selection-card">
+                                        <input type="radio" name="sType" value="Normal" checked>
+                                        <div class="card-content" style="padding: 0.8rem;">
+                                            <span class="icon" style="font-size: 1.2rem;">🟢</span>
+                                            <span class="label" style="font-size: 0.8rem;">Normal</span>
+                                        </div>
+                                    </label>
+                                    <label class="selection-card">
+                                        <input type="radio" name="sType" value="VIP">
+                                        <div class="card-content" style="padding: 0.8rem;">
+                                            <span class="icon" style="font-size: 1.2rem;">💎</span>
+                                            <span class="label" style="font-size: 0.8rem;">VIP</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-glow" id="addBtn"
+                            style="margin-top: 2rem;">Register Slot to System</button>
+                    </form>
+                </div>
+
+                <!-- Recently Added Preview -->
+                <div class="recent-slots" style="flex: 1; min-width: 300px;">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Recently Added Slots</h3>
+                    <div class="table-container" style="padding: 0;">
+                        <table id="recentTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Floor</th>
+                                    <th>Block</th>
+                                    <th>Type</th>
+                                    <th>VIP</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentBody">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No slots
+                                        added yet in this session</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        const recentSlots = [];
+
+        document.getElementById('addSlotForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('addBtn');
+            btn.disabled = true;
+            btn.textContent = 'Adding...';
+
+            const payload = {
+                slot_name: document.getElementById('slotName').value.trim(),
+                floor: document.querySelector('input[name="floor"]:checked').value,
+                block_name: document.getElementById('blockName').value.trim(),
+                vehicle_type: document.querySelector('input[name="vType"]:checked').value,
+                slot_type: document.querySelector('input[name="sType"]:checked').value
+            };
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/slots/add`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showToast(data.message, 'success');
+                    recentSlots.unshift(payload);
+                    renderRecentSlots();
+                    document.getElementById('addSlotForm').reset();
+                } else {
+                    showToast(data.error || 'Failed to add', 'error');
+                }
+            } catch (e) {
+                showToast('Server error', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Add Slot';
+            }
+        });
+
+        function renderRecentSlots() {
+            const tbody = document.getElementById('recentBody');
+            tbody.innerHTML = '';
+            recentSlots.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${s.slot_name}</strong></td>
+                    <td>${s.floor}</td>
+                    <td>${s.block_name || '-'}</td>
+                    <td>${s.vehicle_type}</td>
+                    <td><span class="badge ${s.slot_type === 'VIP' ? 'badge-Active' : 'badge-Pending'}">${s.slot_type}</span></td>
+                `;
+                tr.style.animation = 'fadeIn 0.5s ease';
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>

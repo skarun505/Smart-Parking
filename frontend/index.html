@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="auth-page">
+    <div class="auth-split">
+        <!-- Visual Branded Side -->
+        <div class="auth-visual">
+            <div class="visual-overlay"></div>
+            <div class="visual-content">
+                <div class="logo-mark">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <path d="M21 15l-5-5L5 21"></path>
+                    </svg>
+                </div>
+                <h2>The Future of Parking</h2>
+                <p>Experience seamless, intelligent slot allocation and real-time tracking from anywhere.</p>
+
+                <div class="visual-stats">
+                    <div class="v-stat">
+                        <h4>100+</h4>
+                        <span>Smart Slots</span>
+                    </div>
+                    <div class="v-stat">
+                        <h4>Real-Time</h4>
+                        <span>Availability</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Decorative Blobs -->
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="auth-form-side">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h1>Welcome Back ✨</h1>
+                    <p>Log in to manage your parking sessions</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group modern-input">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">✉️</span>
+                            <input type="email" id="email" required placeholder="john@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group modern-input">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="password" required placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div id="loginError" class="error-text" style="display: none;"></div>
+
+                    <button type="submit" class="btn btn-primary btn-glow" id="loginBtn">Secure Login</button>
+
+                    <!-- Quick Access Links -->
+                    <div class="demo-logins" style="margin-top: 1.5rem; text-align: center;">
+                        <p
+                            style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">
+                            Access Gateways</p>
+                        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                            <button type="button" class="btn btn-outline"
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; flex: 1;"
+                                onclick="fillDemo('user@smartpark.com', 'user123')">👤 Guest Portal</button>
+                            <button type="button" class="btn btn-outline"
+                                style="padding: 0.5rem 1rem; font-size: 0.85rem; flex: 1; border-color: var(--vip); color: #fff;"
+                                onclick="fillDemo('admin@smartpark.com', 'admin123')">🛡️ Admin Portal</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="auth-footer">
+                    <p>New to SmartPark? <a href="register.html">Create an Account</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/auth.js"></script>
+    <script>
+        function fillDemo(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+            setTimeout(() => {
+                document.getElementById('loginBtn').click();
+            }, 150);
+        }
+    </script>
+</body>
+
+</html>

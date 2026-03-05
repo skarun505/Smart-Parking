@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPark - Book Slot</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>SmartPark</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="book_slot.html" class="active">Book Slot</a></li>
+                <li><a href="find_vehicle.html">Find My Vehicle</a></li>
+                <li><a href="booking_history.html">Booking History</a></li>
+                <li><a href="slot_view.html">Slot View</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Reserve Your Space 🅿️</h1>
+                    <p>Select your vehicle type and preferred floor to find the perfect slot.</p>
+                </div>
+            </header>
+
+            <div class="booking-container"
+                style="display: flex; flex-direction: column; gap: 2rem; max-width: 900px; margin: 0 auto;">
+                <!-- Step 1 Form -->
+                <div class="booking-form-card"
+                    style="background: var(--secondary); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); box-shadow: var(--card-shadow);">
+                    <form id="bookingForm">
+                        <!-- Vehicle Type Selection -->
+                        <div class="form-group modern-input">
+                            <label>1. Select Vehicle Type</label>
+                            <div class="selection-grid">
+                                <label class="selection-card">
+                                    <input type="radio" name="vType" value="Bike" checked>
+                                    <div class="card-content">
+                                        <span class="icon">🏍️</span>
+                                        <span class="label">Bike</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="vType" value="Car">
+                                    <div class="card-content">
+                                        <span class="icon">🚗</span>
+                                        <span class="label">Car</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Floor Selection -->
+                        <div class="form-group modern-input" style="margin-top: 2rem;">
+                            <label>2. Choose Floor</label>
+                            <div class="selection-grid" id="floorGrid">
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F1">
+                                    <div class="card-content">
+                                        <span class="icon">❶</span>
+                                        <span class="label">Floor 1</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F2">
+                                    <div class="card-content">
+                                        <span class="icon">❷</span>
+                                        <span class="label">Floor 2</span>
+                                    </div>
+                                </label>
+                                <label class="selection-card">
+                                    <input type="radio" name="floor" value="F3">
+                                    <div class="card-content">
+                                        <span class="icon">❸</span>
+                                        <span class="label">Floor 3</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem;">
+                            <div class="form-group modern-input">
+                                <label for="vehicleNumber">3. Vehicle Number</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🆔</span>
+                                    <input type="text" id="vehicleNumber" required placeholder="MH01AB1234"
+                                        style="text-transform: uppercase;">
+                                </div>
+                            </div>
+                            <div class="form-group modern-input">
+                                <label for="hours">4. Duration (Hours)</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon">🕒</span>
+                                    <input type="number" id="hours" min="1" max="24" value="1" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group modern-input" style="margin-top: 1rem;">
+                            <label>5. Available Slot</label>
+                            <select id="slotSelect" required disabled class="modern-select"
+                                style="width: 100%; padding: 1rem; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-size: 1rem;">
+                                <option value="">Select Floor First</option>
+                            </select>
+                        </div>
+
+                        <button type="button" id="calculateBtn" class="btn btn-primary btn-glow"
+                            style="margin-top: 2rem;">Confirm Details & Continue</button>
+                    </form>
+                </div>
+
+                <!-- Step 2 Summary -->
+                <div class="booking-summary-card"
+                    style="background: linear-gradient(135deg, var(--secondary) 0%, rgba(0, 200, 83, 0.05) 100%); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(0, 200, 83, 0.2); display: none; transform: translateY(0); transition: all 0.5s ease;"
+                    id="summaryCard">
+                    <h3 class="section-title" style="margin-top: 0; color: var(--accent);">Booking Summary</h3>
+                    <div id="summaryDetails" style="margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                            <span style="color: var(--text-secondary);">Vehicle:</span>
+                            <span id="sumVehNo" style="font-weight: 600;"></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem;">
+                            <span style="color: var(--text-secondary);">Allocated Slot:</span>
+                            <span id="sumSlotInfo" style="font-weight: 600; color: var(--info);"></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <span style="color: var(--text-secondary);">Duration:</span>
+                            <span id="sumHours" style="font-weight: 600;"></span>
+                        </div>
+                        <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0;">Grand Total</h3>
+                            <h2 style="margin: 0; color: var(--accent); font-size: 2.5rem;">₹<span
+                                    id="sumAmount">0</span></h2>
+                        </div>
+                    </div>
+                    <button type="button" id="payBtn" class="btn btn-primary btn-glow"
+                        style="background: var(--accent); color: #fff;">Complete Secure Payment</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ensure toast container exists globally -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/dashboard.js"></script>
+    <script src="../js/payment.js"></script>
+    <script src="../js/booking.js"></script>
+</body>
+
+</html>
