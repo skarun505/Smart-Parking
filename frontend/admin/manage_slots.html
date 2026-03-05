@@ -7,6 +7,7 @@
     <title>SmartPark - Manage Slots</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -35,8 +36,10 @@
 
             <!-- Tab Navigation -->
             <div class="tab-nav">
-                <button class="tab-btn active" data-tab="Bike" onclick="switchTab('Bike')">🏍️ Bikes</button>
-                <button class="tab-btn" data-tab="Car" onclick="switchTab('Car')">🚗 Cars</button>
+                <button class="tab-btn active" data-tab="Bike" onclick="switchTab('Bike')"><i
+                        class="fas fa-motorcycle"></i> Bikes</button>
+                <button class="tab-btn" data-tab="Car" onclick="switchTab('Car')"><i class="fas fa-car"></i>
+                    Cars</button>
             </div>
 
             <div id="loader" class="loader" style="display: none;"></div>

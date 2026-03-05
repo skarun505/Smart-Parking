@@ -476,7 +476,10 @@ a:hover {
 }
 
 .sidebar-header h2::before {
-  content: '🅿️';
+  content: '\f541';
+  /* fa-square-p */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   font-size: 1.4rem;
 }
 
@@ -499,6 +502,73 @@ a:hover {
   transition: all 0.3s ease;
   gap: 1rem;
 }
+
+.nav-links a::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  width: 20px;
+  text-align: center;
+}
+
+/* User Sidebar Icons */
+.nav-links li:nth-child(1) a::before {
+  content: '\f015';
+}
+
+/* fa-house */
+.nav-links li:nth-child(2) a::before {
+  content: '\f541';
+}
+
+/* fa-square-p */
+.nav-links li:nth-child(3) a::before {
+  content: '\f002';
+}
+
+/* fa-magnifying-glass */
+.nav-links li:nth-child(4) a::before {
+  content: '\f1da';
+}
+
+/* fa-clock-rotate-left */
+.nav-links li:nth-child(5) a::before {
+  content: '\f009';
+}
+
+/* fa-table-cells */
+.nav-links li:nth-child(6) a::before {
+  content: '\f2f5';
+}
+
+/* fa-right-from-bracket */
+
+/* Admin Sidebar Icons (Specialized handling for Admin) */
+.sidebar-header h2:contains("Admin")+.nav-links li:nth-child(1) a::before {
+  content: '\f0e4';
+}
+
+/* fa-gauge */
+.sidebar-header h2:contains("Admin")+.nav-links li:nth-child(2) a::before {
+  content: '\f328';
+}
+
+/* fa-eye */
+.sidebar-header h2:contains("Admin")+.nav-links li:nth-child(3) a::before {
+  content: '\f7d9';
+}
+
+/* fa-tools */
+.sidebar-header h2:contains("Admin")+.nav-links li:nth-child(4) a::before {
+  content: '\f067';
+}
+
+/* fa-plus */
+.sidebar-header h2:contains("Admin")+.nav-links li:nth-child(5) a::before {
+  content: '\f1da';
+}
+
+/* fa-clock-rotate-left */
+
 
 .nav-links a:hover {
   background: rgba(255, 255, 255, 0.05);
